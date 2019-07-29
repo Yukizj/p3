@@ -56,7 +56,16 @@
         padding:5px;
         border: 2px solid yellow
       }
-      
+      #pbutton {
+        border-radius:8px;
+        padding:5px;
+        border: 2px solid #EBF4AA;
+      }
+      #pbutton:hover {
+       border-radius:8px;
+        padding:5px;
+        border: 2px solid yellow
+      }
       
     </style>
 
@@ -66,20 +75,31 @@
 <!--     <canvas id="myCanvas" width="750px" height="750px"></canvas> -->
    <div class="container">
      <center><h1>shrimp shrimp storyBoard</h1></center>
-     <div id="window"><p id="board"></p></div>
+     <div id="window"><span id='topic'></span><p id="board"></p></div>
       <label >Make your Own Story</label>
       <button id="postbutton" type="button">post!</button>
+     <button id="pbutton" type="button">Random Topic<button>
       <textarea id="myTextArea" rows="6" cols="88" > </textarea>
-
-   
-  
+ <a href="http://p3-jiayuki937984.codeanyapp.com/draw/">Back Home</a>
   
 </body>
 <script>
   var History = [];
+  var topics=['Mr. and Mrs. Dursley, of number four, Privet Drive, were proud to say that they were perfectly normal, thank you very much.', "He was a big, beefy man with hardly any neck, although he did have a very large mustache. Mrs. Dursley was thin and blonde and had nearly twice the usual amount of neck, which came in very useful as she spent so much of her time craning over garden fences, spying on the neighbors."]
+  
+  function getTopic(){
+  return topics[Math.floor(Math.random()*topics.length)];
+  }
   //function 
   function print(e) {
-    document.getElementById("board").innerText += "Chapter " + History.length + " " + History[History.length - 1] + "\n";
+//     var length;
+//     if(History.length>3){length=History.length-1}
+//     else{length=History.length}
+    document.getElementById("board").innerText += "Chapter " + (History.length+1) + " " + History[History.length - 1] + "\n";
+  }
+  
+  window.onload=function(e){
+    document.getElementById("topic").innerText = "Chapter 1 " + getTopic() + "\n";
   }
   //button.addEventListener("click", sendmsg);
   $("#postbutton").click(function()
@@ -87,85 +107,27 @@
    sendmsg();
     document.getElementById("myTextArea").value = null;
   } );
+  
+   $("#pbutton").click(function()
+  {
+    document.getElementById("topic").innerText = "Chapter 1 " + getTopic() + "\n";
+  } );
+  
   function sendmsg() {
     var str = document.getElementById("myTextArea").value;
     var data = {story : str};
     socket.send(JSON.stringify(data));
   }
-//     var canvas = document.getElementById('myCanvas');
-//     var ctx = canvas.getContext('2d');
 
-//     var isActive = false;
-
-// // array to collect coordinates
-//     var plots = [];
-//     canvas.addEventListener('mousedown', startDraw, false);
-//     canvas.addEventListener('mousemove', draw, false);
-//     canvas.addEventListener('mouseup', endDraw, false);
-
-//     function draw(e) {
-//       if(!isActive) return;
-//   // cross-browser canvas coordinates
-//       var x = e.offsetX || e.layerX - canvas.offsetLeft;
-//       var y = e.offsetY || e.layerY - canvas.offsetTop;  
-//       plots.push({x: x, y: y});
-//       drawOnCanvas('BLACK', plots);
-// }
-//     ctx.lineWidth = '3';
-//     // setting up the canvas and one paper tool
-//     function drawOnCanvas(color, plots) {
-//       var data = {arr : plots};
-//       socket.send(JSON.stringify(data));
-//       ctx.beginPath();
-//       ctx.strokeStyle = color;
-//       ctx.moveTo(plots[0].x, plots[0].y);
-  
-//       for(var i=1; i<plots.length; i++) {
-//       ctx.lineTo(plots[i].x, plots[i].y);
-//   }
-//       ctx.stroke();
-// }
-//     function Newdrawing(color, plots) {
-//       ctx.beginPath();
-// //       ctx.strokeStyle = color;
-// //       ctx.moveTo(plots[0].x, plots[0].y);
-      
-//       ctx.strokeStyle = color;
-//       ctx.moveTo(plots[0].x, plots[0].y);
-//       for(var i=1; i<plots.length; i++) {
-//       ctx.lineTo(plots[i].x, plots[i].y);
-    
-        
-//   }
-//        ctx.stroke();
-      
-// }
-//     function startDraw(e) {
-//       isActive = true;
-// }
-
-//     function endDraw(e) {
-//       isActive = false;
-// // empty the array
-//       plots = [];
-// }    
-    //paper.setup(canvas);
-    //var tool = new paper.Tool();
-
-    // getting the URL (you may want to use for Exercise 3)
     var url = window.location.href;
  
-    var socket = new WebSocket('wss://p3-websockets-AlexLu83-jlu82282560.codeanyapp.com/ws/draw');
+    var socket = new WebSocket('wss://p3-jiayuki937984.codeanyapp.com/ws/draw');
     socket.onmessage = function(receivedMessage) {
-       //drawOnCanvas('red', plot);
-      //console.log(receivedMessage.data);
+
       var msg = JSON.parse(receivedMessage.data);
       History.push(msg.story);
       print(History);
-      //Newdrawing('red', msg.arr);
-      
-      
-	// do something when you receive a message
+
       };
   
 

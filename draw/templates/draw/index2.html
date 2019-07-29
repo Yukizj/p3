@@ -1,5 +1,5 @@
 {% load static %}
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 	<title>Current Weather</title>
@@ -11,17 +11,178 @@
 <body>
 
 	<!-- replace this html -->
-	<div class="container">
+<!-- 	<div class="container">
 		<div class="jumbotron text-light bg-primary">
 			<h1>Welcome to the Shrimp Shrimp Storyboard</h1>
 			<p>Now pick the mode you WANT!</p>
 		</div>
 
 		<a href="/draw/index3/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Random topic</a>
-		<a href="/draw/index4" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"></a>
+		<a href="/draw/index4/" class="btn btn-primary btn-lg active" role="button" aria-pressed="true"></a>
 		
-	</div>
+	</div> -->
 	
 	<!-- /replace this html -->
+</body>
+</html> -->
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+body {
+  background-color: #f1f1f1;
+  padding: 10px;
+  font-family: Arial;
+}
+
+.archive h4 {
+margin: 0px 0px 0px 0px; 
+padding: 0px 0px 0px 0px;}
+
+.archive p {
+margin: 0px 0px 0px 0px; 
+padding: 5px 0px 0px 0px;}
+
+.archive-row {
+  margin: 10px -16px;
+}
+
+/* Add padding BETWEEN each archive-column */
+.archive-row,
+.archive-row > .archive-column {
+  padding: 8px;
+}
+
+/* Create three equal archive-columns that floats next to each other */
+.archive-column {
+  float: left;
+  width: 25%;
+  display: none; /* Hide all elements by default */
+}
+
+/* Clear floats after rows */ 
+.archive-row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Content */
+.archive-content {
+  background-color: white;
+  padding: 5px;
+}
+
+/* The "show" class is added to the filtered elements */
+.archive-show {
+  display: block;
+}
+
+/* Style the buttons */
+.archive-btn {
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: white;
+  cursor: pointer;
+}
+
+.archive-btn:hover {
+  background-color: #ddd;
+}
+
+.archive-btn:active {
+  background-color: #666;
+  color: white;
+}
+
+th{
+float:left
+}
+</style>
+</head>
+<body>
+<div id="title">
+<h2>shrimp shrimp storyBoard</h2>
+</div>
+
+<table style="width:100%">
+  <tr style="padding: 0px 0px;background:white; border-left:5px solid red">
+    <td style="width:20%"><img src="https://i.postimg.cc/PqngGKGG/aphex-twin-thumb.jpg" alt="" style="width:100%"></td>
+    <td style="padding:0px 0px; margin:0px">
+    	<h4 style="padding:5px 10px; margin: 0px;">Masks</h4>
+        <p style="padding: 0px 10px;">My heart sounds in my chest as the photographer fusses with the camera. I can't...</p>
+        <p style="padding: 0px 10px;margin:0px"><img src="smiley.gif" alt="like" width="20" height="20">Like  <span class="likes">135</span><span style="float:right; padding-right:10px;"><span class="progress">3</span>/5</span></p>
+    </td>
+  </tr>
+  
+   <tr style="background:white; border-left:5px solid red">
+    <td style="width:20%"><img src="https://i.postimg.cc/Cxq36XQH/air-thumb.jpg" alt="" style="width:100%"></td>
+    <td style="padding:0px 0px; margin:10px">
+    	<h4 style="padding:5px 10px;margin: 0px;">Love on air</h4>
+        <p style="padding: 0px 10px;">My heart sounds in my chest as the photographer fusses with the camera. I can't...</p>
+        <p style="padding: 0px 10px;"><img src="smiley.gif" alt="like" width="20" height="20">Like  <span id="likes">135</span><span style="float:right; padding-right:10px;"><span id="progress">3</span>/5</span></p>
+    </td>
+  </tr>
+</table>
+
+<!-- END GRID -->
+</div>
+<div id="archive-options">
+  <button class="archive-btn" onclick="filterSelection('in-progress')"> Library </button>
+  <button class="archive-btn" onclick="filterSelection('completed')"> Random Story </button>
+
+<!-- END MAIN -->
+</div>
+
+<script>
+filterSelection("all")
+function filterSelection(c) {
+  var x, i;
+  x = document.getElementsByClassName("archive-column");
+  if (c == "all") c = "";
+  for (i = 0; i < x.length; i++) {
+    archRemoveClass(x[i], "archive-show");
+    if (x[i].className.indexOf(c) > -1) archAddClass(x[i], "archive-show");
+  }
+}
+
+function archAddClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+  }
+}
+
+function archRemoveClass(element, name) {
+  var i, arr1, arr2;
+  arr1 = element.className.split(" ");
+  arr2 = name.split(" ");
+  for (i = 0; i < arr2.length; i++) {
+    while (arr1.indexOf(arr2[i]) > -1) {
+      arr1.splice(arr1.indexOf(arr2[i]), 1);     
+    }
+  }
+  element.className = arr1.join(" ");
+}
+
+
+// Add active class to the current button (highlight it)
+var btnContainer = document.getElementById("archive-options");
+var btns = btnContainer.getElementsByClassName("archive-btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function(){
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+  
+}
+</script>
+
 </body>
 </html>

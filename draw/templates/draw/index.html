@@ -22,7 +22,7 @@
          height: 400px;
         width: 730px;
         overflow: scroll;
-        border:5px solid #00FFFF
+        border:5px solid #E15337;
       }
       ::-webkit-scrollbar {
         width: 12px;
@@ -56,15 +56,30 @@
         padding:5px;
         border: 2px solid yellow
       }
+      
       #pbutton {
         border-radius:8px;
         padding:5px;
-        border: 2px solid #EBF4AA;
+/*         border: 2px solid #EBF4AA; */
       }
       #pbutton:hover {
-       border-radius:8px;
+        background-color: #ddd;
+      }
+      
+      .rating-btn {
+/*         float:right; */
+        border-radius:8px;
+        outline: none;
         padding:5px;
-        border: 2px solid yellow
+        cursor: pointer;
+      }
+
+      .rating-btn:hover {
+        background-color: #ddd;
+      }
+
+      .rating-btn:active {
+        background-color: #666;
       }
       
     </style>
@@ -73,14 +88,20 @@
 <body>
     <!-- You may change the dimensions of this canvas -->
 <!--     <canvas id="myCanvas" width="750px" height="750px"></canvas> -->
-   <div class="container">
-     <center><h1>shrimp shrimp storyBoard</h1></center>
-     <div id="window"><span id='topic'></span><p id="board"></p></div>
+  <div style="float:right">
+     <a href="{% url 'index2' %}"><button class="rating-btn">Browse</button></a>
+     <button id="pbutton" type="button">Random Topic</button>
+  </div>
+  <div class="container">
+     <h1 style="text-align:left">The Martian</h1>
+     <div id="window" style="padding:10px"><span id='topic'></span><p id="board"></p></div>
       <label >Make your Own Story</label>
       <button id="postbutton" type="button">post!</button>
-     <button id="pbutton" type="button">Random Topic<button>
-      <textarea id="myTextArea" rows="6" cols="88" > </textarea>
- <a href="http://p3-jiayuki937984.codeanyapp.com/draw/">Back Home</a>
+      <textarea id="myTextArea" rows="6" cols="87" > </textarea>
+    <button id="postbutton" type="button" style="padding:10px;float:right;">post!</button>
+  </div>
+<!--   <button class="archive-btn" onclick="{% url 'index2' %}"> Library </button> <--></-->
+
   
 </body>
 <script>
@@ -120,7 +141,6 @@
   }
 
     var url = window.location.href;
- 
     var socket = new WebSocket('wss://p3-jiayuki937984.codeanyapp.com/ws/draw');
     socket.onmessage = function(receivedMessage) {
 
@@ -130,7 +150,6 @@
 
       };
   
-
 // use when sending a message to the server
 // to be broadcasted to all clients, please add a delay
 
@@ -140,7 +159,6 @@
   };
 
   
- 
 //     socket.onopen = function (e) {
 //     console.log("Connection opened.");
 //     this.send("Hello server!");

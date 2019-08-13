@@ -22,7 +22,6 @@
          height: 400px;
         width: 730px;
         overflow: scroll;
-        border:5px solid #E15337;
       }
       ::-webkit-scrollbar {
         width: 12px;
@@ -47,14 +46,16 @@
         border-color:dodgerblue;
       }
       #postbutton {
+        background-color:#008CBA;
+        color:white;
         border-radius:8px;
         padding:5px;
-        border: 2px solid #EBF4FA;
       }
       #postbutton:hover {
-       border-radius:8px;
         padding:5px;
-        border: 2px solid yellow
+        background-color:white;
+        border: 2px solid #008CBA;
+        color:black;
       }
       
       #pbutton {
@@ -93,12 +94,11 @@
      <button id="pbutton" type="button">Random Topic</button>
   </div>
   <div class="container">
-     <h1 style="text-align:left">The Martian</h1>
+     <h1 id="title" style="text-align:left">The Martian</h1>
      <div id="window" style="padding:10px"><span id='topic'></span><p id="board"></p></div>
       <label >Make your Own Story</label>
       <button id="postbutton" type="button">post!</button>
       <textarea id="myTextArea" rows="6" cols="87" > </textarea>
-    <button id="postbutton" type="button" style="padding:10px;float:right;">post!</button>
   </div>
 <!--   <button class="archive-btn" onclick="{% url 'index2' %}"> Library </button> <--></-->
 
@@ -106,21 +106,27 @@
 </body>
 <script>
   var History = [];
-  var topics=['Mr. and Mrs. Dursley, of number four, Privet Drive, were proud to say that they were perfectly normal, thank you very much.', "He was a big, beefy man with hardly any neck, although he did have a very large mustache. Mrs. Dursley was thin and blonde and had nearly twice the usual amount of neck, which came in very useful as she spent so much of her time craning over garden fences, spying on the neighbors."]
-  
+  var tHistory = [];
+  var topics=['Mr. and Mrs. Dursley, of number four, Privet Drive, were proud to say that they were perfectly normal, thank you very much.', "He was a big, beefy man with hardly any neck, although he did have a very large mustache. Mrs. Dursley was thin and blonde and had nearly twice the usual amount of neck, which came in very useful as she spent so much of her time craning over garden fences, spying on the neighbors.","Once upon a time there lived an old mother goat in a pretty little cottage on the edge of the forest. She had seven little billy goats, and she loved them all dearly."]
+  var titles=['The Martian', "The Stargazer's Sister",'Bill and Sparkle'];
   function getTopic(){
-  return topics[Math.floor(Math.random()*topics.length)];
+//   document.getElementById("board").innerText = none;
+  return Math.floor(Math.random()*topics.length);
   }
   //function 
   function print(e) {
 //     var length;
 //     if(History.length>3){length=History.length-1}
 //     else{length=History.length}
-    document.getElementById("board").innerText += "Chapter " + (History.length+1) + " " + History[History.length - 1] + "\n";
+    document.getElementById("board").innerText += "Chapter " + (History.length+1) + " " + History[History.length - 1] + "\n"+"\n";
   }
   
   window.onload=function(e){
-    document.getElementById("topic").innerText = "Chapter 1 " + getTopic() + "\n";
+    var ind=getTopic();
+    tHistory.push(ind);
+    document.getElementById("title").innerText = titles[ind];
+    document.getElementById("topic").innerText = "Chapter 1 " + topics[ind] + "\n"+ "\n";
+//     document.getElementById("topic").innerText = "Chapter 1 " + topics[getTopic()] + "\n"+"\n";
   }
   //button.addEventListener("click", sendmsg);
   $("#postbutton").click(function()
@@ -131,7 +137,14 @@
   
    $("#pbutton").click(function()
   {
-    document.getElementById("topic").innerText = "Chapter 1 " + getTopic() + "\n";
+    var ind=getTopic();
+    if(ind==tHistory.pop()){
+      ind=getTopic();
+    }
+    document.getElementById("title").innerText = titles[ind];
+    document.getElementById("topic").innerText = "Chapter 1 " + topics[ind] + "\n"+ "\n";
+     document.getElementById("board").innerText = null;
+     History=[];
   } );
   
   function sendmsg() {
@@ -147,7 +160,6 @@
       var msg = JSON.parse(receivedMessage.data);
       History.push(msg.story);
       print(History);
-
       };
   
 // use when sending a message to the server
